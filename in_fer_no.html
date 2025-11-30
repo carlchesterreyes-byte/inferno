@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reyes - Inferno</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #e4eef5;
+        overflow: hidden;
+    }
+
+    #mapWrapper {
+        width: 100%;
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        margin-top: 70px;
+    }
+
+    .layer {
+        width: 100%;
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .layer-title {
+        font-size: 28px;
+        font-weight: bold;
+        background: rgba(255,255,255,0.8);
+        padding: 12px 25px;
+        font-family: Copperplate, Papyrus, fantasy;
+    }
+
+#sidePanel1 {
+    width: 380px;
+    height: 100vh;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: -600px;
+    visibility: hidden;
+    transition: 0.4s ease;
+    padding: 20px;
+    box-shadow: 3px 0 15px rgba(0,0,0,0.25);
+    overflow-y: auto;
+    z-index: 20;
+}
+
+#sidePanel1.open {
+    left: 0px;
+    visibility: visible;
+}
+
+#sidePanel2 {
+    width: 350px;
+    height: 100vh;
+    background: #f2f2f2;
+    position: fixed;
+    top: 0;
+    left: -360px;
+    visibility: hidden;      
+    transition: 0.4s ease;
+    padding: 20px;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.25);
+    overflow-y: auto;
+    z-index: 30;
+}
+
+#sidePanel2.open {
+    left: 420px;
+    visibility: visible; 
+}
+
+
+    .close-btn {
+        background: #900;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        float: right;
+    }
+
+    .sub-btn {
+        width: 100%;
+        padding: 12px;
+        margin: 12px 0;
+        background: #ddd;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 6px;
+    }
+
+    .sub-btn:hover {
+        background: #ccc;
+    }
+
+    .img-box {
+        width: 100%;
+        height: 200px;
+        background: #ccc;
+        border: 2px dashed #999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .topbar {
+        width: 100%;
+        height: 70px;
+        background: darkmagenta;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        font-size: 40px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        color: whitesmoke;
+        justify-content: center;
+        font-family: Copperplate, Papyrus, fantasy;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Behind those who enter shall void into nothingness.</div>
+
+<div id="mapWrapper">
+
+    <div class="layer" onclick="openCircle(1)" style="background: #555555;">
+        <div class="layer-title">Cheating</div>
+    </div>
+
+    <div class="layer" onclick="openCircle(2)" style="background: #333333;">
+        <div class="layer-title">something</div>
+    </div>
+
+    <div class="layer" onclick="openCircle(3)" style="background: #111111;">
+        <div class="layer-title">something</div>
+    </div>
+
+</div>
+
+<div id="sidePanel1"></div>
+
+<div id="sidePanel2"></div>
+
+<script>
+const circles = {
+    1: {
+        title: "Cheating",
+        description: "In the modern world, cheating has become one of the biggest sins due to its unjust, manipulative, and unfair nature. It is seen in relationships, academics, and work, portraying injustice and loss of respect towards others. Hence, this circle is divided into two rings to punish sinners to the full extent.",
+        image: "Image Placeholder",
+
+        subsections: [
+            {
+                title: "Casanova",
+                description: "Here lies the manipulators who deceive the hearts of others, whether in having multiple lovers or insincere reciprocation. The sinners race in an endless, speedy, and cylindrical slide of humongous blood vessels that bump up and down. They are cursed with a number of hearts (equal to how many people they loved romantically) protruding outside of their chests and must manually pump with their hands to maintain circulation. Should they stop, Eros massages and plays with their heart —— he squeezes, stretches, and fidgets with their unbreakable tickers. Their blood vessels are also extremely vasodilated, mercilessly cut by blades on the blood slide."
+            },
+            {
+                title: "Hermes",
+                description: "Here lies the keen-eyed who engage in academic, business-related, or work-related misconduct that allows them to have the upper hand among their peers. Thus, in this ring, their view of the world is upside down; their eyeballs are flipped to 180 degrees vertically and their heads are flipped 180 degrees horizontally. Their legs are also oriented backwards with every joint moving and folding in the wrong directions. While in this state, figures of their peers in the physical form of flames chases them, with the only exit being an endless staircase which they must climb."
+            }
+        ]
+    },
+
+    2: {
+        title: "Placeholder Circle 2 Title",
+        description: "Placeholder description for Circle 2.",
+        image: "Image Placeholder"
+    },
+
+    3: {
+        title: "Placeholder Circle 3 Title",
+        description: "Placeholder description for Circle 3.",
+        image: "Image Placeholder"
+    }
+};
+
+function openCircle(num) {
+    const panel = document.getElementById("sidePanel1");
+    const data = circles[num];
+
+    panel.innerHTML = `
+        <button class="close-btn" onclick="closePanel1()">Close ✕</button>
+        <h2>${data.title}</h2>
+        <div class="img-box">${data.image}</div>
+        <p>${data.description}</p>
+    `;
+
+    if (data.subsections) {
+        panel.innerHTML += `
+            <h3>Rings</h3>
+            ${data.subsections
+                .map(
+                    (sub, index) =>
+                        `<button class="sub-btn" onclick="openSubsection(${num}, ${index})">
+                            ${sub.title}
+                        </button>`
+                )
+                .join("")}
+        `;
+    }
+
+    panel.classList.add("open");
+}
+
+function openSubsection(circleNum, subIndex) {
+    const data = circles[circleNum].subsections[subIndex];
+    const subPanel = document.getElementById("sidePanel2");
+
+    subPanel.innerHTML = `
+        <button class="close-btn" onclick="closePanel2()">Close ✕</button>
+        <h2>${data.title}</h2>
+        <p>${data.description}</p>
+    `;
+
+    subPanel.classList.add("open");
+}
+
+function closePanel1() {
+    document.getElementById("sidePanel1").classList.remove("open");
+    closePanel2(); // also close subpanel
+}
+
+function closePanel2() {
+    document.getElementById("sidePanel2").classList.remove("open");
+}
+</script>
+
+</body>
+</html>
